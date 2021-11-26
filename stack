@@ -1,0 +1,50 @@
+#ifndef Stackne
+#define Stackne
+#include<string.h>
+#include<conio.h>
+#include<iostream>
+#include<fstream>
+using namespace std;
+//Khoi tao Stack rong
+typedef struct pStack
+{
+	int Top;
+	pStack *Next;
+
+}*Stack;
+void Init_Stack(Stack &S) 
+{
+	S = NULL;
+}
+bool IsEmpty_Stack(Stack S)
+{
+	if (S == NULL)
+		return 1; //Neu Stack rong tra ve 1
+	return 0; //Nguoc lai tra ve 0
+}
+void Push_Stack(Stack &S, int v) {
+	pStack *p; //Khai bao mot node moi
+	p = new pStack; //Cap phat bo nho cho node moi
+
+	if (p == NULL)
+	{
+		std::cout << "Memory Empty."; //Neu p rong, thong bao het bo nho
+		return;
+	}
+	p->Top = v;
+	p->Next = S; //Tao link lien ket tu p den Stack
+	S = p; //Bay gio p la Stack
+}
+int Pop_Stack(Stack &S) {
+	pStack *p; //p de luu node bi xoa
+	if (IsEmpty_Stack(S))
+	{
+		return 0; //Neu Stack rong thi thoat ra
+	}
+	p = S; //p la S
+	S = p->Next; //S link toi node dang sau no
+	int v = p->Top; // v luu gia tri cua node bi xoa
+	delete(p); //Giai phong bo nho cho node bi xoa
+	return v; //Tra ve gia tri cua node bi xoa
+}
+#endif
