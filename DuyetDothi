@@ -1,0 +1,60 @@
+#ifndef Duyetdothi
+#define Duyetdothi
+#include<string.h>
+#include<conio.h>
+#include<iostream>
+#include<fstream>
+#include "Stackne.h"
+using namespace std;
+#define TRUE 1
+#define FALSE 0
+#define MAX 100
+int so_TP_lien_thong = 1, n;
+int a[MAX][MAX];
+bool daxet[MAX];
+
+void Init_Stack(Stack &Q);
+bool IsEmpty_Stack(Stack Q);
+void Push_Stack(Stack &Q, int v);
+int Pop_Stack(Stack &Q);
+void Init_daxet();
+//*********************************************************************
+//*********************************************************************
+void Init_daxet()
+{
+	for (int i = 0; i <= n; ++i)
+		daxet[i] = FALSE;
+}
+void duyet_dothi(int v) //duyệt đồ thị theo DFS sử dụng stack
+{
+	Stack P;
+	Init_Stack(P);
+	daxet[v] = TRUE;
+	Push_Stack(P, v);
+	int i;
+	while (!IsEmpty_Stack(P))
+	{
+		v = P->Top;
+		for (i = 1; i <= n; ++i)
+		{
+			if (a[i][v] != 0 && daxet[i] == FALSE)
+			{
+				Push_Stack(P, i);
+				daxet[i] = TRUE;
+				v = i;
+				i = -1;
+			}
+		}
+		Pop_Stack(P);
+	}
+}
+bool kiem_tra_lien_thong()
+{
+	for (int i = 1; i <= n; ++i)
+	{
+		if (daxet[i] == FALSE)
+			return FALSE; //Neu do thi khong lien thong tra ve FALSE
+	}
+		return TRUE;
+}
+#endif
