@@ -1,0 +1,1810 @@
+#define Max 100
+//Khai bao thu vien
+#define vc 100
+#define TRUE 1
+#define FALSE 0
+#define MAX 50 
+
+#define TRUE 1 
+
+#define FALSE  0 
+
+int A[MAX][MAX];//ma trận liền kề.
+
+int C[MAX], B[MAX];
+
+#include<string.h>
+#include<conio.h>
+#include<iostream>
+#include<fstream>
+#include <queue>
+#include<stack>
+#include "Stackne.h"
+#include "Duyetdothi.h"
+#include <Windows.h>
+using namespace std;
+int co, v;
+//--------------------------------------------------------------------------
+//Khai bao cau truc
+struct Graph
+{
+	int flag;
+	int n;
+	int A[Max][Max];
+
+};
+struct nhan
+{
+	int dinh;
+	int chiphi;
+};
+struct node
+{
+	int dinh;
+	node* next;
+};
+struct list
+{
+	node* dau;
+	node* cuoi;
+}sl;
+
+struct canh
+{
+	int u, v,trongso;
+};
+int chuaxet[100];
+int d;
+//--------------------------------------------------------------------------
+//Khai bao ham
+void TextColor(int color);
+void chendau(list &sl, node *g);
+void doc_dscanh_tao_mtranke(Graph& p);
+node* taonut(int dinh);
+void khoitao_ds(list& sl);
+void chencuoi(list& sl, node* p);
+void xuatds(list sl);
+void taodanhsachkechodthi(Graph p, list ds[]);
+void doc_DoThi(Graph& p);
+void xuat_DoThi(Graph p);
+void doc_dscanh_tao_mtranke(Graph p);
+void showMenu();
+int demBacCuaDinh(Graph p, int k);
+void tinhBacAllDinh(Graph p);
+int timDinhBacMax(Graph p);
+int timDinhBacMin(Graph p);
+int tinhTongBac(Graph p);
+int demBacChan(Graph p);
+int demBacLe(Graph p);
+void inDsDinhKe(Graph p, int v);
+int ktrUV(Graph p, int u, int v);
+void Dske(Graph p, int v, int a[], int& n);
+void Canh(Graph p, int dscanh[][2], int &socanh);
+void docfile(Graph &p);
+void Tinhbac(Graph p, int a[]);
+void xuatds(list sl);
+void OutputGraph(Graph p);
+void Bacvao(Graph p, int a[]);
+void Bacra(Graph p, int a[]);
+void xuatcaykhung(canh T[], int socanh);
+void xaydungcaykhung_DFS(Graph p, canh T[], int &socanh, int u);
+void xaydungcaykhung_BFS(Graph p, canh T[], int &socanh);
+void xuatbangchiphi(Graph p, nhan bangchiphi[Max][Max]);
+void Prim(Graph p, nhan bangchiphi[Max][Max], int dinhkhoidau);
+void xuatcaykhung(Graph p, nhan bangchiphi[Max][Max]);
+void Init_Stack(Stack &Q);
+bool IsEmpty_Stack(Stack Q);
+void Push_Stack(Stack &Q, int v);
+int Pop_Stack(Stack &Q);
+void Init_daxet();
+void docfileEler(Graph &p);
+void xuatdothiG(Graph p);
+int test_dinh();
+bool test();
+void duong_Euler();
+void input_matran_ke(Graph &p);
+void input_Start_End(Graph p, int &start, int &end);
+int Dijkstra(Graph &p, int *&P, int s, int e);
+int floyd(Graph p, int C[][Max], int start, int end);
+void tinhbacdinhvaovara(Graph p, int bacvao[], int bacra[]);
+void KhuDT_DFS(Graph p);
+int sothanhphan_lienthong(Graph p);
+void swap(int a, int b);
+void sapxepcanhtheotrongsotangdan(Graph p, canh Dscanh[], int& A);
+void Kruskal(Graph p);
+void xuatkr(Graph p);
+void xuatcaykhungg(Graph p);
+int KTdem(Graph p);
+void kiemtra(Graph p);
+void tinhBacCuaDinh(Graph p, int bac[]);
+void xuatBanpChiPhi(Graph p, nhan banpchiphi[Max][Max]);
+void Dijkstra(Graph p, nhan banpchiphi[Max][Max], int dinkhoidau);
+void xuatbanpduonpdi(Graph p, nhan banpchiphi[Max][Max], int dinhkhoidau);
+void Floy(Graph p, int W[][Max], int P[][Max]);
+void xuatduonpdi_Floy(Graph p, int W[Max][Max], int P[Max][Max], int dinhkhoidau);
+int demDinhBacLe(int bac[], int n);
+void chuTrinhEuler(Graph p);
+int ktraEuler(Graph p);
+void duongDiEuler(Graph p);
+int soThanhPhanLienThong(Graph p);
+void Init(void);
+void Result(void);
+void Hamilton(int *B, int *C, int i);
+//--------------------------------------------------------------------------
+void main()
+{
+	int chon;
+	Graph p;
+	canh t;
+	list ds[Max];
+	canh T[Max];
+	canh Dscanh[Max];
+	doc_DoThi(p);
+	xuat_DoThi(p);
+	////docfile(p);
+	/////*taodanhsachkechodthi(p, ds);*/
+	////xuatds(sl);
+	////OutputGraph(p);
+	int dscanh[50][2];
+	int A = 0;
+	int khung[Max][3];
+	int socanh_khung = 0;
+	int v;
+	int co;
+	int socanh;
+	int a[Max];
+	int so_TP_lien_thong = 1, n;
+	int b[Max][Max];
+	bool daxet[Max];
+	int bacvao[Max];
+	int bacra[Max];
+	int dinhkhoidau;
+	int len;
+	nhan bangchiphi[Max][Max];
+	int W[Max][Max], P[Max][Max];
+	do
+	{
+		showMenu();
+		printf("\nBan hay nhap lua chon cua minh: ");
+		scanf_s("%d", &chon);
+		switch (chon)
+		{
+		case 1:
+			int k;
+			do
+			{
+				printf("\nBan hay nhap dinh can tim bac: ");
+				scanf_s("%d", &k);
+			} while (k<1 || k>p.n);
+			printf("\nBac cua dinh can tim: %d", demBacCuaDinh(p, k));
+			break;
+		case 2:
+			tinhBacAllDinh(p);
+			break;
+		case 3:
+			printf("\ndinh co bac cao nhat: %d\n", timDinhBacMax(p));
+			printf("\ndinh co bac nho nhat: %d\n", timDinhBacMin(p));
+			break;
+		case 4:
+			printf("\nTong cac bac: %d", tinhTongBac(p));
+			break;
+		case 5:
+			printf("\nCo %d dinh bac chan", demBacChan(p));
+			printf("\nCo %d dinh bac le", demBacLe(p));
+			break;
+		case 6:
+			do
+			{
+				printf("\nNhap dinh can in danh sach canh ke: ");
+				scanf_s("%d", &k);
+			} while (k<1 || k>p.n);
+			printf("\nDanh sach cac dinh ke dinh %d:\n", k);
+			inDsDinhKe(p, k);
+			break;
+		case 7:
+			int u, v;
+			do
+			{
+				printf("\nNhap dinh thu nhat can kiem tra: ");
+				scanf_s("%d", &u);
+			} while (u<1 || u>p.n);
+			do
+			{
+				printf("\nNhap dinh thu 2 can kiem tra: ");
+				scanf_s("%d", &v);
+			} while (v<1 || v>p.n);
+			if (ktrUV(p, u, v) == 0)
+				printf("\nDinh %d va %d khong ke nhau", u, v);
+
+			else
+				printf("\nDinh %d va %d ke nhau", u, v);
+			break;
+		case 8:
+			for (int i = 1; i <= p.n; i++)
+			{
+				printf("\nDanh sach cac dinh ke dinh %d:\n", i);
+				inDsDinhKe(p, i);
+			}
+			break;
+		case 9:
+			int a[100], n;
+			do
+			{
+				printf("\nNhap dinh can tim danh sach ke: ");
+				scanf_s("%d", &v);
+			} while (v<1 || v>p.n);
+			Dske(p, v, a, n);
+			for (int i = 1; i < n; i++)
+				printf("\t%d", a[i]);
+			break;
+		case 10:
+		{
+			/*canh( p,dscanh, socanh);*/
+			Tinhbac(p, a);
+			/*Bacra(p, a);
+			Bacvao(p, a);*/
+			break;
+		}
+		case 11:
+		{
+			/*canh(p,dscanh,socanh);*/
+			/*xd_dscanh(p, dscanh, socanh);*/
+			/*Dske(p, v, a, n);*/
+			int socanh = 0;
+			xaydungcaykhung_DFS(p, T, socanh, 1);
+			for (int i = 1; i <= p.n; i++)
+				chuaxet[i] = 0;
+			xuatcaykhung(T, socanh);
+			break;
+		}
+		case 12:
+		{
+			socanh = 0;
+			for (int i = 1; i <= p.n; i++)
+				chuaxet[i] = 0;
+			xaydungcaykhung_BFS(p, T, socanh);
+			/*xuatcaykhung(T, socanh);*/
+			printf("\n");
+			break;
+		}
+		case 13:
+		{
+
+			Prim(p, bangchiphi, 1);
+			xuatbangchiphi(p, bangchiphi);
+			xuatcaykhung(p, bangchiphi);
+			break;
+		}
+		case 14:
+		{
+			xuatbangchiphi(p, bangchiphi);
+			printf("\n");
+			break;
+		}
+		case 15:
+		{
+			for (int i = 1; i <= p.n; i++)
+				chuaxet[i] = 0;
+			xuatcaykhung(p, bangchiphi);
+			printf("\n");
+			break;
+		}
+		case 16:
+		{
+			docfileEler(p);
+			xuatdothiG(p);
+			if (test() == FALSE)
+			{
+				cout << endl << "Do thi da cho khong co duong di Euler." << endl;
+				system("pause");
+				return;
+			}
+			else
+			{
+				cout << endl << "Duong di Euler cua do thi da cho la: " << endl;
+				duongDiEuler(p);
+			}
+			cout << "\nSo Thanh phan lien thong : " << soThanhPhanLienThong(p);
+			chuTrinhEuler(p);
+			break;
+		}
+		
+		case 17:
+		{
+			input_matran_ke(p);
+			cout << endl << "-----Thuat toan Dijkstra-----" << endl;
+			int start, end;
+			input_Start_End(p, start, end);
+			int *P;
+			int len = Dijkstra(p, P, start, end);
+			// in ket qua 
+			cout << endl << "Do dai ngan nhat cua duong di tu " << start << " den " << end << " la "<< len <<endl;
+				cout << "Qua trinh duong di: ";
+			int i = end - 1;
+			cout << i + 1;
+			while (i != start - 1)
+			{
+				cout << " <-- ";
+				cout << P[i] + 1;
+				i = P[i];
+			}
+			cout << endl;
+			break;
+		}
+		case 18:
+		{
+			input_matran_ke(p);
+			cout << endl << "-----Thuat toan Dijkstra-----" << endl;
+			int start, end;
+			input_Start_End(p, start, end);
+			int C[Max][Max];
+			int len = floyd(p, C, start, end);
+			// in ket qua 
+			cout << endl << "Do dai ngan nhat cua duong di tu " << start << " den " << end << " la "<< len <<endl;
+				cout << "Qua trinh duong di: ";
+			//truy vet
+			char *s, *temp;
+			s = new char[p.n * 10];
+			temp = new char[10];
+			stack <int> S1;
+			stack <int> S2;
+				S1.push(start - 1); //danh sach nap cac dinh vao
+			S1.push(end - 1); //danh sach xuat cac dinh ra
+			int dich, tg;
+			while (!S1.empty())
+			{
+				dich = S1.top(); //dich = phan tu dau tien
+				S1.pop(); // dua phan tu do ra
+				S2.push(dich); //cho vao danh sach xuat
+				if (!S1.empty()) //trong khi S1 ko rong thi tiep tuc tim cac dinh
+				{
+					tg = S1.top();
+					while (C[tg][dich] != -1) //tim cac dinh di tu tg den dich
+					{
+						S1.push(C[tg][dich]);
+						tg = S1.top();
+					}
+				}
+			}
+
+			cout << S2.top() + 1;
+			S2.pop();
+
+			while (!S2.empty())
+			{
+				cout << " --> " << S2.top() + 1;
+				strcat(s, temp);
+				S2.pop();
+			}
+			cout << endl;
+			break;
+		}
+		case 19:
+		{
+			tinhbacdinhvaovara(p, bacvao, bacra);
+		}
+		case 20:
+		{
+			Bacra(p, a);
+			Bacvao(p, a);
+		}
+		case 21:
+		{
+			KhuDT_DFS(p);
+			break;
+		}
+		case 22:
+		{
+			sothanhphan_lienthong(p);
+		 break;
+		}
+		case 23:
+		{
+			Kruskal (p);
+			printf("\nDanh sach canh cua khung ngan nhat dua tren thuan toan (Kruskal) la:\n");
+			xuatkr(p);
+
+		}
+		case 24:
+		{ int bac[100];
+			tinhBacCuaDinh( p,bac);
+		}
+		case 25:
+		{
+			TextColor(9);
+			Dijkstra(p, bangchiphi, 1);
+			xuatBanpChiPhi(p, bangchiphi);
+			xuatbanpduonpdi(p, bangchiphi, 1);
+			Floy(p, W, P);
+			xuatduonpdi_Floy(p, W, P, 1);
+			cout << endl;
+			break;
+		}
+		case 26:
+		{
+			B[0] = 1;
+
+			int i = 1;
+
+			d = 0;
+
+			Init();
+			cout << "\n";
+			Hamilton(B, C, i);
+			if (d == 0)
+
+				cout << "Khong co chu trinh Hamilton";
+			break;
+		}
+		}
+	} while (chon != 0);
+	_getch();
+}
+//Viet dinh nghia doc file
+node *taonut(int dinh)
+{
+	node*g = new node;
+	if (g == NULL) return NULL;
+	g->dinh = dinh;
+	g->next = NULL;
+	return g;
+}
+void khoitao_ds(list &sl)
+{
+	sl.dau = sl.cuoi = NULL;
+}
+void chendau(list &sl, node *g)
+{
+	if (g == NULL) return;
+	if (sl.dau == NULL)
+		sl.dau = g;
+	else
+	{
+		g->next = sl.dau;
+		sl.dau = g;
+
+	}
+}
+void chencuoi(list &sl, node *g)
+{
+	if (g == NULL) return;
+	if (sl.dau == NULL)
+		sl.dau = sl.cuoi = g;
+	else
+	{
+		sl.cuoi->next = g;
+		sl.cuoi = g;
+	}
+}
+node *pop(list &sl)
+{
+	if (sl.dau == NULL) return NULL;
+	node* g;
+	g = sl.dau;
+	sl.dau = sl.dau->next;
+	g->next = NULL;
+	return g;
+}
+Graph docFile(string fileName)
+{
+	Graph p;
+	ifstream fileIn;
+	fileIn.open(fileName, ios::in);
+	if (fileIn.fail())
+	{
+		printf("file khong ton tai");
+		p.flag = -1;
+		return p;
+	}
+	fileIn >> p.flag;
+	fileIn >> p.n;
+	for (int i = 0; i < p.n; i++)
+		for (int j = 0; j < p.n; j++)
+		{
+			fileIn >> p.A[i][j];
+		}
+	fileIn.close();
+	return p;
+}
+void docfile(Graph &p)
+{
+	FILE *f = fopen("File1.txt", "r");
+	fscanf(f, "%d", &p.flag);
+	fscanf(f, "%d", &p.n);
+	for (int i = 1; i <= p.n; i++)
+	{
+		for (int j = 1; j <= p.n; j++)
+		{
+			p.A[i][j] = 0;
+		}
+	}
+	int i, j;
+	while (!feof(f))
+	{
+		fscanf(f, "%d %d", &i, &j);
+		if (p.flag == 0)
+		{
+			p.A[i][j] ++;
+			p.A[j][i] ++;
+			if (i == j)
+				p.A[j][i]--;
+		}
+		else
+			p.A[i][j]++;
+
+	}
+	fclose(f);
+}
+void taodanhsachkechodthi(Graph p, list ds[])
+{
+	for (int i = 1; i <= p.n; i++)
+		khoitao_ds(ds[i]);
+	
+	for (int i = 1; i <= p.n; i++)
+		for (int j = 1; j <= p.n; j++)
+			if (p.A[i][j] != 0)
+			{
+				node *g = taonut(j);
+				chencuoi(ds[i], g);
+			}
+	
+	for (int i = 1; i <= p.n; i++)
+	{
+		printf("\n danh sach ke cua dinh %d", i);
+		xuatds(ds[i]);
+	}
+}
+void OutputGraph(Graph p)
+{
+	if (p.flag ==1)
+		printf("Do thi cua ban la do thi co huong ");
+	else 
+		printf("Do thi cua ban la do thi vo huong ");
+	printf("\n");
+	for (int i = 1; i<=p.n; i++)
+	{
+		for (int j = 1; j <=p.n; j++)
+			cout << p.A[i][j] << " ";
+		cout << endl;
+	}
+}
+void xuatds(list sl)
+{
+
+	if (sl.dau == NULL)
+		printf("\n danh sach rong!");
+	else
+	{
+		node *g = sl.dau;
+		while (g != NULL)
+		{
+			printf("\t%d", g->dinh);
+			g = g->next;
+		}
+	}
+}
+//Viet ham xuat do thi
+void xuat_DoThi(Graph p)
+{
+	if (p.flag = 0)
+		printf("\n day la do thi vo huong");
+	else
+		printf("\n day la do thi co huong");
+	printf("\n so dinh cua do thi:%d", p.n);
+	printf("\n ma tran ke(ma tran trong so):");
+	for (int i = 1; i <= p.n; i++)
+	{
+		printf("\n");
+		for (int j = 1; j <= p.n; j++)
+			printf("\t%d", p.A[i][j]);
+	}
+
+}
+
+void showMenu()
+{
+	TextColor(11);
+	printf("\n******************************************");
+	printf("\n*                  MENU                  *");
+	printf("\n******************************************");
+	printf("\n*               Buoi 1                   *");
+	printf("\n* 1. Tim bac cua mot dinh                *");
+	printf("\n* 2. Bac cua tat ca cac dinh             *");
+	printf("\n* 3. Tim dinh co bac cao, be nhat        *");
+	printf("\n* 4. Tinh tong bac cua do thi            *");
+	printf("\n* 5. Dem dinh bac chan, bac le           *");
+	printf("\n* 6. In danh sach cac dinh ke dinh v     *");
+	printf("\n* 7. Kiem tra dinh v, u co ke nhau khong?*");
+	printf("\n* 8. In danh sach tap ke tat ca cac dinh *");
+	printf("\n* 9. Tim tap ke cua dinh                 *");
+	printf("\n* 10.Tinh Bac                            *");
+	printf("\n*               Buoi 2                   *");
+	printf("\n* 11.DFS cua do thi                      *");
+	printf("\n* 12.BFS cua do thi                      *");
+	printf("\n*               Buoi 3                   *");
+	printf("\n* 13.Prim cua do thi                     *");
+	printf("\n* 14.Xuat bang chi phi                   *");
+	printf("\n* 15.Xuat cay khung                      *");
+	printf("\n*               Buoi 4                   *");
+	printf("\n* 16.Xuat Chu Trinh Euler                *");
+	printf("\n*               Buoi 5                   *");
+	printf("\n* 17.Xuat Chu Trinh Dijkstra             *");
+	printf("\n*               Buoi 6                   *");
+	printf("\n* 18.Xuat Chu Trinh Floyd                *");
+	printf("\n* 0. Thoat chuong trinh                  *");
+	printf("\n* 21..Khu De Quy DFS                     *");
+	printf("\n* 25. Xuat Bai tap Buoi 5                *");
+	printf("\n******************************************");
+}
+void TextColor(int color)
+{
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+void xuatcaykhung(canh T[], int socanh)
+{
+	printf("\nCay khung nho nhat \n");
+	for (int i = 1; i <= socanh; i++)
+		printf("\t(%d, %d)", T[i].u, T[i].v);
+}
+//xây dựng cây khung theo thuật toán DFS
+void xaydungcaykhung_DFS(Graph p, canh T[], int &socanh, int u) {
+	chuaxet[u] = 1;
+	for (int v = 1; v <= p.n; v++)
+	{
+		if (p.A[u][v] != 0 && chuaxet[v] == 0)
+		{
+			socanh++;
+			T[socanh].u = u; T[socanh].v = v;
+			if (socanh == p.n - 1)
+			{
+				xuatcaykhung(T, socanh);
+				return;
+			}
+			else
+				xaydungcaykhung_DFS(p, T, socanh, v);
+		}
+	}
+}
+//xây dựng cây khung theo thuật toán BFS
+void xaydungcaykhung_BFS(Graph p, canh T[], int &socanh) {
+	for (int u = 1; u <= p.n; u++)
+	{
+		for (int v = 1; v <= p.n; v++)
+		{
+			if (p.A[u][v] != 0 && chuaxet[v] == 0)
+			{
+				socanh++;
+				T[socanh].u = u;
+				T[socanh].v = v;
+				chuaxet[v] = 1;
+				chuaxet[u] = 1;
+				printf("\n===============(%d,%d)", T[socanh].u, T[socanh].v);
+				if (socanh == p.n - 1)
+				{
+					xuatcaykhung(T, socanh);
+					return;
+				}
+			}
+		}
+	}
+}
+void xd_dscanh(Graph p, int dscanh[][2], int &socanh)
+{
+	socanh = 0;
+	if (p.flag == 0)
+	{
+		for (int i = 1; i <= p.n; i++)
+			for (int j = 1; j <= p.n; j++)
+				while (p.A[i][j] > 0)
+				{
+					socanh++;
+					dscanh[socanh][1] = i;
+					dscanh[socanh][2] = j;
+					p.A[i][j]--;
+				}
+	}
+	else
+	{
+		for (int i = 1; i <= p.n; i++)
+			for (int j = 1; j <= p.n; j++)
+				while (p.A[i][j] > 0)
+				{
+					socanh++;
+					dscanh[socanh][1] = i;
+					dscanh[socanh][2] = j;
+					p.A[i][j]--;
+				}
+	}
+	printf("\n danh sach canh cua do thi:\n");
+	for (int i = 1; i <= socanh; i++)
+		printf("\n (%d)(%d)", dscanh[i][1], dscanh[i][2]);
+}
+void doc_DoThi(Graph& p)
+{
+	FILE* f = fopen("File2.txt", "rt");
+	fscanf(f, "%d", &p.flag);
+	fscanf(f, "%d", &p.n);
+	for (int i = 1; i <= p.n; i++)
+		for (int j = 1; j <= p.n; j++)
+			fscanf(f, "%d", &p.A[i][j]);
+	fclose(f);
+}
+int demBacCuaDinh(Graph p, int k)
+{
+	int  y = 0;
+	for (int i = 0; i < p.n; i++)
+	{
+		if (p.A[k - 1][i] != 0 && p.A[k - 1][i] != 100)
+			y++;
+	}
+	return y;
+}
+void tinhBacAllDinh(Graph p)
+{
+	for (int x = 0; x < p.n; x++)
+	{
+		printf("\nBac cua dinh %d la: %d", x + 1, demBacCuaDinh(p, x + 1));
+	}
+}
+void Tinhbac(Graph p, int a[])
+{
+	for (int i = 1; i <= p.n; i++)
+	{
+		a[i] = 0;
+		if (p.flag == 0)
+		{
+			for (int j = 1; j <= p.n; j++)
+				a[i] += p.A[i][j];
+			a[i] += p.A[i][i];
+		}
+		else
+		{
+			for (int j = 1; j <= p.n; j++)
+				a[i] += p.A[i][j] + p.A[j][i];
+		}
+	}
+	for (int i = 1; i <= p.n; i++)
+		printf("\n bac cua dinh %d la %d", i, a[i]);
+}
+void Bacra(Graph p, int a[])
+{
+	for (int i= 1; i<= p.n; i++)
+	{
+		a[i] = 0;
+		for (int j = 1; j<= p.n; j++)
+			a[i] += p.A[i][j] /*+ p.A[j][j]*/;
+		
+	}
+	for (int i = 1; i <= p.n; i++)
+		printf("\n bac ra cua dinh %d la %d", i, a[i]);
+}
+void Bacvao(Graph p, int a[])
+{
+	for (int j = 1; j <= p.n; j++)
+	{
+		a[j] = 0;
+		for (int i = 1; i <= p.n; i++)
+			a[j] += p.A[i][j];
+	}
+	for (int j = 1; j<= p.n; j++)
+		printf("\n bac vao cua dinh %d la %d", j, a[j]);
+}
+void tinhbacdinhvaovara(Graph p, int bacvao[], int bacra[])
+{
+	for (int i = 1; i <= p.n; i++)
+	{
+		bacvao[i] = 0;
+		bacra[i] = 0;
+		if (p.flag == 0)
+		{
+			for (int j = 1; j <= p.n; j++)
+			{
+				bacra[i] += p.A[i][j];
+				bacra[i] += p.A[i][i];
+				bacvao[i] += p.A[i][j];
+				bacvao[i] += p.A[i][i];
+			}
+		}
+		else
+		{
+			for (int j = 1; j <= p.n; j++)
+
+			{
+				bacra[i] += p.A[i][j];
+				bacvao[i] += p.A[j][i];
+			}
+		}
+	}
+	for (int i = 1; i <= p.n; i++)
+	{
+		printf("\n bac ra cua dinh %d la %d", i, bacra[i]);
+		printf("\n bac vao cua dinh %d la %d", i, bacvao[i]);
+	}
+}
+void tinhSoCanhDoThi(Graph p, int bac[], int& socanh)
+{
+	int tongBac = 0;
+	if (p.flag == 0)
+	{
+		for (int i = 1; i <= p.n; i++)
+			tongBac += bac[i];
+		socanh = tongBac / 2;
+	}
+	else
+	{
+		for (int i = 1; i <= p.n; i++)
+			for (int j = 1; j <= p.n; j++)
+				socanh += p.A[i][j];
+	}
+	printf("\n Do thi co so canh la:%d", socanh);
+}
+
+int timDinhBacMax(Graph p)
+{
+	int max = 1, bac = demBacCuaDinh(p, max);
+	for (int i = 2; i <= p.n; i++)
+		if (bac < demBacCuaDinh(p, i))
+		{
+			max = i;
+			bac = demBacCuaDinh(p, i);
+		}
+	return max;
+}
+int timDinhBacMin(Graph p)
+{
+	int min = 1, bac = demBacCuaDinh(p, min);
+	for (int i = 2; i <= p.n; i++)
+		if (bac > demBacCuaDinh(p, i))
+		{
+			min = i;
+			bac = demBacCuaDinh(p, i);
+		}
+	return min;
+}
+int tinhTongBac(Graph p)
+{
+	int s = 0;
+	for (int x = 0; x < p.n; x++)
+	{
+		s += demBacCuaDinh(p, x + 1);
+	}
+	return s;
+}
+int demBacChan(Graph p)
+{
+	int s = 0;
+	for (int x = 0; x < p.n; x++)
+	{
+		if (demBacCuaDinh(p, x + 1) % 2 == 0)
+			s++;
+	}
+	return s;
+}
+int demBacLe(Graph p)
+{
+	int s = 0;
+	for (int x = 0; x < p.n; x++)
+	{
+		if (demBacCuaDinh(p, x + 1) % 2 != 0)
+			s++;
+	}
+	return s;
+}
+void inDsDinhKe(Graph p, int v)
+{
+	for (int i = 0; i < p.n; i++)
+	{
+		if (p.A[v - 1][i] != 0 && p.A[v - 1][i] != 100)
+			printf("\t%d", i + 1);
+	}
+}
+int ktrUV(Graph p, int u, int v)
+{
+	if (p.A[u - 1][v - 1] != 0 && p.A[u - 1][v - 1] != 100)
+		return 1;
+	return 0;
+
+}
+
+void Dske(Graph p, int v, int a[], int& n)
+{
+	n = 0;
+	for (int i = 0; i < p.n; i++)
+	{
+		if (p.A[v - 1][i] != 0 && p.A[v - 1][i] != 100)
+		{
+			a[n] = p.A[v - 1][i];
+			n++;
+		}
+	}
+}
+//// Buoi 3//////////
+////////////////////////////////////////
+//xuất bảng thực hiện thuật toán Prim
+void xuatbangchiphi(Graph p, nhan bangchiphi[Max][Max])
+{
+	printf("\nBang mo ta thuat toan Prim tim cay khung nho nhat \n");
+	for (int i = 1; i <= p.n; i++)
+		printf("%10d", i);
+	for (int i = 0; i <= p.n; i++)
+	{
+		printf("\n----------------------------------------------------\n");
+		for (int j = 1; j <= p.n; j++)
+			printf("(%d,%d)\t", bangchiphi[i][j].dinh,
+			bangchiphi[i][j].chiphi);
+		getch();
+	}
+}
+
+//xuất cây khung nhỏ nhất
+void xuatcaykhungg(Graph p) {
+	canh dscanh[100];
+	cout << "\nDanh sach cac cay khung nho nhat\n";
+	for (int i = 1; i <= p.n; i++)
+	{
+		cout << '(' << dscanh[i].u << ',' << dscanh[i].v << ',' << dscanh[i].trongso << ')' << "\n";
+	}
+}
+
+void xuatcaykhung(Graph p ,nhan bangchiphi[Max][Max])
+{
+	printf("\nDanh sach cac canh thuoc cay khung nho nhat.\n");
+	int i = 2;
+	while (i <= p.n)
+	{
+		printf("\t(%d,%d)", bangchiphi[p.n][i].dinh, i);
+		i++;
+	}
+}
+void xuatBanpChiPhi(Graph p, nhan banpchiphi[Max][Max])
+{
+	cout << "\nBang duong di npan nhat  \n";
+	for (int i = 1; i <= p.n; i++)
+	{
+		cout << i << "\t";
+	}
+	for (int i = 0; i <= p.n; i++)
+	{
+		cout << "\n---------------------------------------------------------------\n";
+		for (int j = 1; j <= p.n; j++)
+		{
+			cout << "\t(" << banpchiphi[i][j].dinh << "," << banpchiphi[i][j].chiphi << ")";
+		}
+	}
+}
+void Dijkstra(Graph p, nhan banpchiphi[Max][Max], int dinkhoidau) {
+	int chuaxet[Max];
+	for (int i = 1; i <= p.n; i++)
+	{
+		chuaxet[i] = 0;
+		banpchiphi[0][i].chiphi = vc;
+		banpchiphi[0][i].dinh = 0;
+	}
+	banpchiphi[0][dinkhoidau].chiphi = 0;
+	banpchiphi[0][dinkhoidau].dinh = dinkhoidau;
+
+	int i = 0;
+	while (i < p.n)
+	{
+		int chondinh_min = 1;
+		while (chuaxet[chondinh_min] == 1)
+			chondinh_min++;
+		for (int j = 1; j <= p.n; j++)
+		{
+			if (chuaxet[j] == 0 && banpchiphi[i][j].chiphi < banpchiphi[i][chondinh_min].chiphi)
+				chondinh_min = j;
+		}
+		chuaxet[chondinh_min] = 1;
+		i++;
+		for (int j = 1; j <= p.n; j++) {
+			if (chuaxet[j] == 1 || p.A[chondinh_min][j] == vc)
+				banpchiphi[i][j] = banpchiphi[i - 1][j];
+			if (chuaxet[j] == 0 && p.A[chondinh_min][j] < vc)
+				if (banpchiphi[i - 1][j].chiphi > p.A[chondinh_min][j] + banpchiphi[i - 1][chondinh_min].chiphi)
+				{
+					banpchiphi[i][j].chiphi = p.A[chondinh_min][j] + banpchiphi[i - 1][chondinh_min].chiphi;
+					banpchiphi[i][j].dinh = chondinh_min;
+				}
+				else
+					banpchiphi[i][j] = banpchiphi[i - 1][j];
+		}
+	}
+
+}
+void xuatbanpduonpdi(Graph p, nhan banpchiphi[Max][Max], int dinhkhoidau) {
+	cout << "\nBanp duonp di npan nhat tu dinh " << dinhkhoidau << " den cac dinh con lai\n";
+	cout << "Dinh den" << '\t' << "Tronp so" << '\t' << "Duonp di";
+	for (int i = 1; i <= p.n; i++) {
+		if (i != dinhkhoidau) {
+			printf("\n%d\t\t%d\t\t", i, banpchiphi[p.n][i].chiphi);
+			int j = i;
+			while (j != dinhkhoidau)
+			{
+				printf("%d <-----", j);
+				j = banpchiphi[p.n][j].dinh;
+			}
+			printf("%d", dinhkhoidau);
+		}
+	}
+}
+void Floy(Graph p, int W[][Max], int P[][Max]) {
+	int i, j, k;
+	for (i = 1; i <= p.n; i++) {
+		for (j = 1; j <= p.n; j++) {
+			W[i][j] = p.A[i][j];
+			if (p.A[i][j] < vc && i != j)
+				P[i][j] = j;
+			else
+				P[i][j] = 0;
+		}
+	}
+	for (k = 1; k <= p.n; k++) {
+		for (i = 1; i <= p.n; i++) {
+			for (j = 1; j <= p.n; j++) {
+				if (i != j && W[i][j] > W[i][k] + W[k][j])
+				{
+					W[i][j] = W[i][k] + W[k][j];
+					P[i][j] = P[i][k];
+				}
+			}
+		}
+	}
+}
+void xuatduonpdi_Floy(Graph p, int W[Max][Max], int P[Max][Max], int dinhkhoidau) 
+{
+	cout << "\n";
+	cout << "\nBang duonp di ngan nhat tu dinh " << dinhkhoidau << " den cac dinh con lai\n";
+	cout << "Dinh den" << '\t' << "Tronp so" << '\t' << "Duonp di";
+	for (int i = 1; i <= p.n; i++) {
+		if (i != dinhkhoidau) {
+			printf("\n%d\t\t%d\t\t", i, W[dinhkhoidau][i]);
+			printf("%d", dinhkhoidau);
+			int j = P[dinhkhoidau][i];
+			while (j != i) {
+				printf("------> %d", j);
+				j = P[j][i];
+			}
+			printf("-------> %d", i);
+		}
+	}
+}
+//xây dựng cây khung theo thuật toán Prim
+void Prim(Graph p, nhan bangchiphi[Max][Max], int dinhkhoidau) {
+	int chuaxet[Max];
+		//bước khởi tạo
+		for (int i = 1; i <= p.n; i++)
+		{
+			chuaxet[i] = 0;
+			bangchiphi[0][i].chiphi = vc;
+			bangchiphi[0][i].dinh = 0;
+		}
+	bangchiphi[0][dinhkhoidau].chiphi = 0;
+	bangchiphi[0][dinhkhoidau].dinh = 0;
+	int i = 0;
+	while (i < p.n)
+	{
+		int chondinh_min = 1;
+		while (chuaxet[chondinh_min] == 1)
+			chondinh_min++;
+		for (int j = 1; j < p.n; j++)
+		{
+			if (chuaxet[j] == 0 && bangchiphi[i][j].chiphi <
+				bangchiphi[i][chondinh_min].chiphi)
+				chondinh_min = j;
+		}
+		//printf("\n==========%d", chondinh_min);
+		//getch();
+		chuaxet[chondinh_min] = 1;
+		i++;
+		for (int j = 1; j <= p.n; j++)
+		{
+			if (chuaxet[j] == 1 || p.A[chondinh_min][j] == vc)
+				bangchiphi[i][j] = bangchiphi[i - 1][j];
+			if (chondinh_min != j && chuaxet[j] == 0 &&
+				p.A[chondinh_min][j] < vc)
+				if (bangchiphi[i - 1][j].chiphi > p.A[chondinh_min][j])
+				{
+					bangchiphi[i][j].chiphi = p.A[chondinh_min][j];
+					bangchiphi[i][j].dinh = chondinh_min;
+				}
+				else
+					bangchiphi[i][j] = bangchiphi[i - 1][j];
+		}
+	}
+}
+void swap(int a, int b) {
+	int tam = a;
+	a = b;
+	b = tam;
+}
+void sapxepcanhtheotrongsotangdan(Graph p, canh Dscanh[], int& A) {
+	A = 0;
+	for (int i = 1; i <= p.n; i++) {
+		for (int j = i + 1; j <= p.n; j++)
+			if (p.A[i][j] < vc) {
+				{
+					++A;
+					Dscanh[A].u = i;
+					Dscanh[A].v = j;
+					Dscanh[A].trongso = p.A[i][j];
+				}
+			}
+		for (int i = 1; i<A; i++){
+			int min = i;
+			for (int j = i + 1; j <= A; j++)
+				if (Dscanh[j].trongso < Dscanh[min].trongso)
+					min = j;
+			if (i != min)
+				swap(Dscanh[i], Dscanh[min]);
+		}
+	}
+}
+
+void Kruskal(Graph p) {
+	int chuaxet[Max];
+	canh Dscanh[100];
+	int m;
+	for (int i = 1; i < p.n; i++)
+		chuaxet[i] = 0;
+	int socanh = 0;
+	canh T[Max];
+	int sotplt = 0;
+	sapxepcanhtheotrongsotangdan(p, Dscanh, m);
+	for (int i = 1; i <= m; i++) {
+		cout << '(' << Dscanh[i].u << ',' << Dscanh[i].v << ',' << Dscanh[i].trongso << ')' << "\n";
+	}
+	getchar();
+	for (int i = 1; i <= m; i++)
+	{
+		if (chuaxet[Dscanh[i].u] == 0 && chuaxet[Dscanh[i].v] == 0)
+		{
+			socanh++;
+			T[socanh] = Dscanh[i];
+			sotplt++;
+			chuaxet[Dscanh[i].u] = sotplt;
+			chuaxet[Dscanh[i].v] = sotplt;
+		}
+		else
+		{
+			if (chuaxet[Dscanh[i].u] != 0 && chuaxet[Dscanh[i].v] == 0)
+			{
+				socanh++;
+				T[socanh] = Dscanh[i];
+				chuaxet[Dscanh[i].u] = chuaxet[Dscanh[i].v];
+			}
+			else {
+
+				if (chuaxet[Dscanh[i].u] != chuaxet[Dscanh[i].v])
+				{
+					socanh++;
+					T[socanh] = Dscanh[i];
+					int j = 1;
+					int tam = chuaxet[Dscanh[i].v];
+					while (j <= p.n)
+					{
+						if (chuaxet[j] == tam)
+							chuaxet[j] = chuaxet[Dscanh[i].u];
+						j++;
+					}
+				}
+			}
+		}
+		if (socanh == p.n - 1)
+			break;
+	}
+}
+void xuatkr(Graph p)
+{
+	int chuaxet[Max];
+	canh Dscanh[100];
+	int m;
+	for (int i = 1; i < p.n; i++)
+		chuaxet[i] = 0;
+	int socanh = 0;
+	canh T[Max];
+	int sotplt = 0;
+	sapxepcanhtheotrongsotangdan(p, Dscanh, m);
+	for (int i = 1; i <= m; i++) {
+		cout << '(' << Dscanh[i].u << ',' << Dscanh[i].v << ')' << "\n";
+	}
+}
+//Buoi 4///////
+void docfileEler(Graph& p) {
+	FILE *f = fopen("File2.txt", "r");
+	if (f == NULL) {
+		printf("\nKhong tim thay file");
+		printf("\n");
+		system("pause");
+	}
+	else
+	{
+		fscanf(f, "%d", &p.flag);
+		fscanf(f, "%d", &p.n);
+		for (int i = 1; i <= p.n; i++)
+			for (int j = 1; j <= p.n; j++)
+				fscanf(f, "%d", &p.A[i][j]);
+	}
+}
+void xuatdothiG(Graph p)
+{
+	int co;
+	if (p.flag == 0)
+		printf("\nG la do thi vo huong");
+	else
+	{
+		printf("\nG la do thi co huong");
+	}
+	printf("\nSo dinh cua G la: %d", p.n); //xuất sô đinh của đồ thị
+	n = p.n; // n số phần tử ma tran ke stack sử dụng
+	// Xuât ra ma tran ke đã input để kiểm tra
+	printf("\nMa tran ke G :");
+	for (int i = 1; i <= p.n; i++)
+	{
+		printf("\n");
+		for (int j = 1; j <= p.n; j++)
+		{
+			printf("%4d", p.A[i][j]);
+			a[i][j] = p.A[i][j]; //mảng được dùng trong stack
+			co = p.flag;// loại đồ thị } } }
+			//Kiem tra xem so dinh bac le cua do thi co nhieu hon 2 hay khong
+		}
+	}
+}
+
+
+int test_dinh()
+{
+	
+	v = 1;
+	int i, j, k, z, dem = 0;
+	int tongbacvao, tongbacra;
+	if (co == 0) // loại đò thị vô hướng
+	{
+		for (i = 1; i <= n; ++i)
+		{
+			k = 0;
+			for (j = 1; j <= n; ++j)
+			{
+				k += a[i][j];
+			}
+			if (k % 2 == 1)
+			{
+				v = i;
+				++dem;
+			}
+		}
+	}
+	else //loại đồ thị có hướng
+	{ // đếm số đỉnh có |tổng bậc ra - tổng bậc vào| =1
+		for (i = 1; i <= n; ++i)
+		{
+			tongbacvao = 0;
+			tongbacra = 0;
+			for (z = 1; z <= n; ++z) //Tính tổng bậc vào (cột)
+				tongbacvao += a[z][i];
+			for (j = 1; j <= n; ++j) //Tính tổng bậc ra (hàng)
+				tongbacra += a[i][j];
+			if (tongbacvao - tongbacra != 0)
+			{
+				v = i;
+				++dem;
+			}
+		}
+	}
+	return dem;
+}
+			//Kiem tra xem do thi co lien thong hay khong
+bool test()
+{
+	duyet_dothi(1);
+	if (co == 0) //loại đồ thị vô hướng
+	{
+		if (kiem_tra_lien_thong() == FALSE || test_dinh() > 2)
+			return FALSE;
+	}
+	else // loại đồ thị có hướng
+	{
+		if (test_dinh() > 2)
+			return FALSE;
+	}
+	return TRUE;
+}
+int KTdem(Graph p)
+{
+	int i;
+	for (i = 1; i <= p.n; i++)
+	{
+		int dem = 0;
+		int j;
+		for (j = 1; i <= p.n; j++)
+			dem = dem + p.A[i][j];
+		if (dem % 2 != 0)
+			return 0;
+	}
+	return 1;
+}
+void kiemtra(Graph p)
+{
+
+	doc_DoThi(p);
+	if (KTdem(p))
+		printf("do thi euler");
+	else
+		printf("khong phai do thi euler");
+	getch();
+}
+void tinhBacCuaDinh(Graph p, int bac[])
+{
+	for (int i = 1; i <= p.n; i++)
+	{
+		bac[i] = 0;
+		if (p.flag == 0)
+		{
+			for (int j = 1; j <= p.n; j++)
+				bac[i] += p.A[i][j];
+			bac[i] += p.A[i][i];
+		}
+		else
+		{
+			for (int j = 1; j <= p.n; j++)
+				bac[i] += p.A[i][j] + p.A[j][i];
+		}
+	}
+	for (int i = 1; i <= p.n; i++)
+	{
+		cout << "\nBac cua dinh " << i << " la: " << bac[i];
+	}
+}
+int soThanhPhanLienThong(Graph p)
+{
+	int stplt = 0;
+	for (int i = 1; i <= p.n; i++)
+	{
+		chuaxet[i] = 0;
+	}
+	int dem = 0;
+	stack <int> s;
+	while (dem < p.n)
+	{
+		int i = 1;
+		while (chuaxet[i] != 0)
+		{
+			i++;
+		}
+		s.push(i);
+		while (!s.empty())
+		{
+			int i = s.top();
+			s.pop();
+			chuaxet[i] = 1;
+			dem++;
+			for (int j = 1; j <= p.n; j++)
+			{
+				if (chuaxet[j] == 0 && p.A[i][j] != 0)
+				{
+					s.push(j);
+					chuaxet[j] = 1;
+				}
+			}
+		}
+		stplt++;
+	}
+	return stplt;
+}
+
+int demDinhBacLe(int bac[], int n)
+{
+	int dem = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		if (bac[i] % 2 != 0)
+			dem++;
+	}
+	return dem;
+}
+int ktraEuler(Graph p)
+{
+	int bac[Max];
+	tinhBacCuaDinh(p, bac);
+	int dembacle = demDinhBacLe(bac, p.n);
+	int demstplt = soThanhPhanLienThong(p);
+	if (demstplt == 1)
+	{
+		if (dembacle == 0)
+		{
+			cout << "\nDo thi co chu trinh Euler";
+			return 1;
+		}
+		else
+		{
+			if (dembacle == 2)
+			{
+				cout << "\nDo thi co duong di Euler";
+				return 2;
+			}
+			else
+			{
+
+				cout << "\nDoThi khonp co chu trinh va duong di Euler";
+				return 0;
+			}
+		}
+	}
+	else
+	{
+		cout << "\nDo thi khong co chu trinh va duong di Euler";
+		return 0;
+	}
+}
+void chuTrinhEuler(Graph p)
+{
+	int kq = ktraEuler(p);
+	if (kq == 1)
+	{
+		stack<int> s;
+		queue<int> ce;
+		s.push(1);
+		while (!s.empty())
+		{
+			int i = s.top();
+			int j;
+			for (j = 1; j <= p.n; j++)
+				if (p.A[i][j] != 0)
+				{
+					s.push(j);
+					p.A[i][j] = p.A[j][i] = 0;
+					break;
+				}
+			if (j > p.n)
+			{
+				int p = s.top();
+				s.pop();
+				ce.push(p);
+			}
+		}
+		cout << "\nChu trinh Euler can tim: ";
+		while (!ce.empty())
+		{
+			cout << "\t" << ce.front();
+			ce.pop();
+		}
+		cout << "\n";
+	}
+	else
+	{
+		cout << "\n";
+		cout << "Khong co chu trinh euler";
+	}
+}
+void duongDiEuler(Graph p)
+{
+	int bac[Max];
+	tinhBacCuaDinh(p, bac);
+	int i = 1;
+	while (bac[i] % 2 == 0) i++;
+	{
+		stack<int> s;
+		queue<int> ce;
+		s.push(1);
+		while (!s.empty())
+		{
+			int i = s.top();
+			int j;
+			for (j = 1; j <= p.n; j++)
+				if (p.A[i][j] != 0)
+				{
+					s.push(j);
+					p.A[i][j] = p.A[j][i] = 0;
+					break;
+				}
+			if (j > p.n)
+			{
+				int p = s.top();
+				s.pop();
+				ce.push(p);
+			}
+		}
+		cout << "\nDuonp di Euler can tim: ";
+		while (!ce.empty())
+		{
+			cout << "\t" << ce.front();
+			ce.pop();
+		}
+		cout << "\n";
+
+	}
+}
+			//Duyet tu dinh v
+void duong_Euler()
+{
+	int i;
+	Stack Q; // Q = NULL
+	Init_Stack(Q);
+	Push_Stack(Q, v); // đưa v vào stack Q
+	while (!IsEmpty_Stack(Q))
+	{
+		v = Q->Top; // lấy đỉnh ở đầu stack 
+		for (i = 1; i <= n; ++i)
+		{
+			if (a[i][v] > 0)
+			{
+				Push_Stack(Q, i);
+				//Xoa bot 1 canh noi giua i va v
+				if (co == 0) // loại đồ thị vô hướng
+				{
+					--a[i][v];
+					--a[v][i];
+				}
+				else // loại đồ thị có hướng
+					--a[i][v];
+				v = i; //Bay gio dinh cua Stack la i
+				i = -1; //Duyet lai tu dau
+			}
+		}
+		cout << Pop_Stack(Q) << " ";
+	}
+}
+// Buoi 5///		
+void input_matran_ke(Graph &p)
+{
+	FILE *f = fopen("File2.txt", "r");
+	if (f == NULL) {
+		printf("\nKhong tim thay file");
+		printf("\n");
+		system("pause");
+	}
+	else
+	{
+		fscanf(f, "%d", &p.flag);
+		fscanf(f, "%d", &p.n);
+		for (int i = 0; i <= p.n; i++)
+			for (int j = 0; j <= p.n; j++)
+				fscanf(f, "%d", &p.A[i][j]);
+	}
+}
+void input_Start_End(Graph p, int &start, int &end)
+{
+	int a, b;
+	a = b = 0;
+	cout << endl << "Cac dinh danh so tu 1 den " << p.n << endl;
+	
+		cout << "Nhap dinh bat dau : ";
+	while (a<1 || a> p.n)
+	{
+		cin >> a;
+		if (a<1 || a> p.n)
+			cout << "Khong hop le ! \nNhap lai dinh bat dau : ";
+	}
+
+	cout << "Nhap dinh ket thuc : ";
+	while (b<1 || b> p.n)
+	{
+		cin >> b;
+		if (b<1 || b> p.n)
+			cout << "Khong hop le ! \nNhap lai dinh ket thuc : ";
+	}
+	start = a;
+	end = b;
+}
+int Dijkstra(Graph &p, int *&P, int s, int e)
+{
+	int a = s - 1, b = e - 1;
+	// Len[i] - Gia tri nho nhat tu a -> i. Len1 danh dau do dai.
+	int *Len = new int[p.n];
+	int *S = new int[p.n];//Danh dau dinh thuoc danh sach dac biet
+	P = new int[p.n];//truy vet;
+
+	fill(Len, Len + p.n, vc); //Gan duong di ban dau = vo cung
+	fill(P, P + p.n, a);
+	fill(S, S + p.n, 0); //Danh sach dac biet
+	Len[a] = 0; // khoi tao do dai tu a->a = 0
+	int i = a;
+
+	//while S<>V
+	for (int k = 0; k<p.n; k++)
+	{
+		//tim do dai ngan nhat trong cac dinh 
+		for (i = 0; i<p.n; i++) // tim v thuoc (V-S) va Len[v] < vo cung
+			if (!S[i] && Len[i] != vc)
+				break;
+		for (int j = i + 1; j<p.n; j++) // tim dinh co Len min
+			if (!S[j] && Len[j] < Len[i])
+				i = j;
+		S[i] = 1;
+
+		//--------Tinh do dai tu dinh dang xet toi cac dinh tiep
+
+		for (int j = 0; j< p.n; j++) //thay doi do dai neu co
+		{
+			if (!S[j] && p.A[i][j])
+				if (Len[i] + p.A[i][j] < Len[j])
+				{
+					Len[j] = Len[i] + p.A[i][j];
+					P[j] = i; //truy vet
+				}
+		}
+	}
+	return Len[b];
+}
+int floyd(Graph p, int C[][Max], int start, int end) {
+	int a = start - 1, b = end - 1;
+	int A[Max][Max];
+	for (int i = 0; i<p.n; i++)
+	{
+		for (int j = 0; j<p.n; j++)
+		{
+			if (p.A[i][j])
+				A[i][j] = p.A[i][j];
+			else A[i][j] = vc;
+			C[i][j] = -1;
+		}
+	}
+
+	for (int k = 0; k<p.n; k++)
+	{
+		for (int i = 0; i<p.n; i++)
+			for (int j = 0; j<p.n; j++)
+				if (A[i][j] > A[i][k] + A[k][j])
+				{
+					A[i][j] = A[i][k] + A[k][j];
+					C[i][j] = k;
+				}
+	}
+	return A[a][b];
+}
+void KhuDT_DFS(Graph p)
+{
+	canh T[Max];
+	int socanh = 0;
+	for (int i = 1; i <= p.n; i++)
+		chuaxet[i] = 0;
+	
+	node*g = taonut(1);
+	list sl;
+	khoitao_ds(sl);
+	chendau(sl, g);
+	int dem = 0;
+	printf("\n THu tu duyet cac dinh la: \n");
+
+	while (dem < p.n)
+	{
+		int u = pop(sl)->dinh;
+		printf("%5d", u);
+		getch();
+		chuaxet[u] = 1;
+		dem++;
+		for (int v = p.n; v >= 1; v--)
+		{
+			if (chuaxet[v] == 0 && p.A[u][v] != 0)
+			{
+				g = taonut(v);
+				chendau(sl, g);
+			}
+		}
+	}
+}
+
+int sothanhphan_lienthong(Graph p)
+{
+	int stplt = 0;
+	for (int i = 1; i <= p.n; i++)
+		chuaxet[i] = 0;
+
+	int dem = 0;
+	list sl;
+	khoitao_ds(sl);
+
+	while (dem < p.n)
+	{
+		int i = 1;
+		while (chuaxet[i] != 0) i++;
+
+		node* g = taonut(i);
+		chendau(sl, g);
+		chuaxet[i] = 1;
+
+		while (sl.dau != NULL)
+		{
+			int i = pop(sl)->dinh;
+			chuaxet[i] = 1;
+			dem++;
+			for (int j = 1; j <= p.n; j++)
+				if (chuaxet[j] == 0 && p.A[i][j] != 0)
+				{
+					g = taonut(j);
+					chendau(sl, g);
+					chuaxet[j] = 1;
+				}
+		}
+		stplt++;
+	}
+	printf("\nSo thanh phan lien thong: %d", stplt);
+	return stplt;
+}
+
+//void inDuongEuler_Khu(Graph& p, int u)
+//{
+//	for (int i = 0; i < p.flag * 2; i++)
+//	{
+//		for (int j = 0; j < p.flag; j++)
+//		{
+//			if (g.A[u][i] > 0)
+//			{
+//				int v = i;
+//				if (KTCanhHopLe(g, u, v))
+//				{
+//					cout << u << "-" << v << " ";
+//					g.m[u][v] = 0;
+//					g.m[v][u] = 0;
+//					u = v;
+//					i = 0;
+//				}
+//			}
+//		}
+//	}
+//}
+
+
+void Init(void)
+{
+
+	freopen("File2.txt", "r", stdin);
+
+	cin >> n;
+
+	//nhập ma trận kề
+
+	for (int i = 1; i <= n; i++){
+
+		for (int j = 1; j <= n; j++){
+
+			cin >> A[i][j];
+
+		}
+
+	}
+
+	for (int i = 1; i <= n; i++)
+
+		C[i] = 0;
+
+}
+void Result(void)
+{
+	
+	cout << "Chu trinh Hamilton: ";
+
+	for (int i = n; i >= 0; i--)
+
+		cout << B[i] << " ";
+
+	d++;
+
+	cout << endl;
+
+}
+
+void Hamilton(int *B, int *C, int i)
+{
+
+	int j, k;
+
+	for (j = 1; j <= n; j++){
+
+		if (A[B[i - 1]][j] == 1 && C[j] == 0){
+
+			B[i] = j; C[j] = 1;
+
+			if (i<n) Hamilton(B, C, i + 1);
+
+			else
+
+				if (B[i] == B[0]) Result();
+
+			C[j] = 0;
+
+		}
+
+	}
+
+}
